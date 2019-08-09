@@ -25,6 +25,7 @@ def gen(camera):
 
 @app.route('/video_feed')
 def video_feed():
+    render_template('stream.html')
     return Response(gen(VideoCamera()),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
