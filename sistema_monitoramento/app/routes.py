@@ -1,6 +1,7 @@
 from flask import render_template, flash, redirect, Response
 from app import app
 from app.forms import LoginForm
+from app.camera import VideoCamera
 
 @app.route('/')
 def home():
@@ -28,7 +29,6 @@ def video_feed():
     render_template('stream.html')
     return Response(gen(VideoCamera()),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
-
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0',debug=True)
