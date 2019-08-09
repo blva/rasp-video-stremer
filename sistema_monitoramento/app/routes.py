@@ -1,7 +1,6 @@
 from flask import render_template, flash, redirect, Response
 from app import app
 from app.forms import LoginForm
-from camera import VideoCamera
 
 @app.route('/')
 def home():
@@ -15,8 +14,8 @@ def reboot():
 def connect():
     form = LoginForm()
     if form.validate_on_submit():
-        return redirect('/reboot')
-    return render_template('login.html', title='Sign In', form=form)
+        return redirect('/video_feed')
+    return render_template('stream.html', title='Sign In', form=form)
 
 def gen(camera):
     while True:
