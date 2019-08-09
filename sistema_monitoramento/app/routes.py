@@ -15,7 +15,7 @@ def connect():
     form = LoginForm()
     if form.validate_on_submit():
         return redirect('/video_feed')
-    return render_template('stream.html', title='Sign In', form=form)
+    return render_template('login.html', title='Sign In', form=form)
 
 def gen(camera):
     while True:
@@ -25,6 +25,7 @@ def gen(camera):
 
 @app.route('/video_feed')
 def video_feed():
+    render_template('stream.html')
     return Response(gen(VideoCamera()),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
