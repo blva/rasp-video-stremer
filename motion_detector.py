@@ -20,7 +20,6 @@ args = vars(ap.parse_args())
 if args.get("video", None) is None:
 	vs = VideoStream(src=0).start()
 	time.sleep(2.0)
-
 # otherwise, we are reading from a video file
 else:
 	vs = cv2.VideoCapture(args["video"])
@@ -42,7 +41,7 @@ while True:
 		break
 
 	# resize the frame, convert it to grayscale, and blur it
-	frame = imutils.resize(frame, width=500)
+	frame = cv2.resize(frame, (500,500), cv2.INTER_AREA)
 	gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 	gray = cv2.GaussianBlur(gray, (21, 21), 0)
 
