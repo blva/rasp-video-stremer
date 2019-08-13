@@ -14,20 +14,20 @@ DNS_ORIGINAL=/etc/dnsmasq.conf.orig
 HOSTAPD_FILE=/etc/hostapd/hostapd.conf
 HOSTAPD_APPEND=./hostapd_append
 #Update DHPCD file
-sudo cat "$DHCPCD_APPEND"  >> "$DHCPCD_FILE"
+sudo cat "$DHCPCD_APPEND"  > "$DHCPCD_FILE"
 #Restart DHPCD
 sudo service dhcpcd restart
 #Configure DHCP server
 if [ ! -f "$DNS_ORIGINAL"]; then
     sudo mv /etc/dnsmasq.conf /etc/dnsmasq.conf.orig
-    sudo cat "$DNS_APPEND" >> "$DNS_FILE"
+    sudo cat "$DNS_APPEND" > "$DNS_FILE"
 else
     sudo cat "$DNS_APPEND" > "$DNS_FILE"
 fi
 #Reload DNS
 sudo systemctl reload dnsmasq
 #Configure Access Point
-    sudo cat "$HOSTAPD_APPEND" >> "$HOSTAPD_FILE"
+    sudo cat "$HOSTAPD_APPEND" > "$HOSTAPD_FILE"
 #Inform configuration path
 sudo sed -i '/DAEMON_CONF=/c\DAEMON_CONF="/etc/hostapd/hostapd.conf"' /etc/default/hostapd
 #Enable hostapd
