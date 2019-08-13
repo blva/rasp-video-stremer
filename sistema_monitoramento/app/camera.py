@@ -1,6 +1,7 @@
 import cv2
 from imutils.video import VideoStream
 import picamera
+import time
 
 class VideoCamera(object):
 	def __init__(self):
