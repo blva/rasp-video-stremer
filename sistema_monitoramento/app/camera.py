@@ -1,4 +1,5 @@
 import cv2
+from imutils.video import VideoStream
 import picamera
 
 class VideoCamera(object):
@@ -6,7 +7,8 @@ class VideoCamera(object):
 		# Using OpenCV to capture from device 0. If you have trouble capturing
 		# from a webcam, comment the line below out and use a video file
 		# instead.
-		self.video = cv2.VideoCapture(0)
+		self.video = VideoStream(src=0).start()
+		time.sleep(2.0)
 		self.firstFrame = None
 		# If you decide to use video.mp4, you must have this file in the folder
 		# as the main.py.
@@ -15,7 +17,8 @@ class VideoCamera(object):
 	def __del__(self):
 		self.video.release()
 	
-	def process_imgage(self,image):
+	def process_image(self):
+		frame = self.video.read()
 		# frame = frame if args.get("video", None) is None else frame[1]
 		text = "Unoccupied"
 
@@ -62,13 +65,14 @@ class VideoCamera(object):
 			cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
 		cv2.putText(frame, datetime.datetime.now().strftime("%A %d %B %Y %I:%M:%S%p"),
 			(10, frame.shape[0] - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.35, (0, 0, 255), 1)
+		
+		return frame
 
 	def get_frame(self):
-		success, image = self.video.read()
 		# We are using Motion JPEG, but OpenCV defaults to capture raw images,
 		# so we must encode it into JPEG in order to correctly display the
 		# video stream.
-		
+		image = self.process_image()
 		ret, jpeg = cv2.imencode('.jpg', image)
 		return jpeg.tobytes()
 	
