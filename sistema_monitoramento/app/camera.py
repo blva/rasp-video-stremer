@@ -33,7 +33,7 @@ class VideoCamera(object):
 		# resize the frame, convert it to grayscale, and blur it
 		frame = cv2.resize(frame, (500,500), cv2.INTER_AREA)
 		gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-		gray = cv2.GaussianBlur(gray, (21, 21), 0)
+		gray = cv2.GaussianBlur(gray, (9, 9), 0)
 
 		# if the first frame is None, initialize it
 		if self.firstFrame is None:
@@ -64,10 +64,10 @@ class VideoCamera(object):
 			cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
 
 		# draw the text and timestamp on the frame
-		cv2.putText(frame, "Status de Monitoramento: {}".format(text), (10, 20),
-			cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
-		cv2.putText(frame, datetime.datetime.now().strftime("%A %d %B %Y %I:%M:%S%p"),
-			(10, frame.shape[0] - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.35, (0, 0, 255), 1)
+#		cv2.putText(frame, "Status de Monitoramento: {}".format(text), (10, 20),
+#			cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
+#		cv2.putText(frame, datetime.datetime.now().strftime("%A %d %B %Y %I:%M:%S%p"),
+#			(10, frame.shape[0] - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.35, (0, 0, 255), 1)
 		
 		return frame
 
@@ -76,6 +76,7 @@ class VideoCamera(object):
 		# so we must encode it into JPEG in order to correctly display the
 		# video stream.
 		image = self.process_image()
+#		image = self.video.read()
 		ret, jpeg = cv2.imencode('.jpg', image)
 		return jpeg.tobytes()
 	

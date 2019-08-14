@@ -17,13 +17,9 @@ HOSTAPD_APPEND=./hostapd_append
 sudo cat "$DHCPCD_APPEND"  > "$DHCPCD_FILE"
 #Restart DHPCD
 sudo service dhcpcd restart
+sudo systemctl daemon-reload
 #Configure DHCP server
-if [ ! -f "$DNS_ORIGINAL"]; then
-    sudo mv /etc/dnsmasq.conf /etc/dnsmasq.conf.orig
-    sudo cat "$DNS_APPEND" > "$DNS_FILE"
-else
-    sudo cat "$DNS_APPEND" > "$DNS_FILE"
-fi
+sudo cat "$DNS_APPEND" > "$DNS_FILE"
 #Reload DNS
 sudo systemctl reload dnsmasq
 #Configure Access Point
@@ -34,6 +30,9 @@ sudo sed -i '/DAEMON_CONF=/c\DAEMON_CONF="/etc/hostapd/hostapd.conf"' /etc/defau
 sudo systemctl unmask hostapd
 sudo systemctl enable hostapd
 sudo systemctl start hostapd
+#Show status
+sudo systemctl status hostapd
+sudo systemctl status dnsmasq
 #Add route and masks
 sudo sed -i '/#net.ipv4.ip_forward=1/c\net.ipv4.ip_forward=1' /etc/sysctl.conf
 sudo iptables -t nat -A  POSTROUTING -o eth0 -j MASQUERADE

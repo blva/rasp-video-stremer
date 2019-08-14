@@ -3,6 +3,12 @@ from app import app
 from app.forms import LoginForm
 from app.camera import VideoCamera
 
+import numpy as np
+from datetime import datetime
+
+timestamps = np.zeros(100)
+i = 0
+
 @app.route('/')
 def home():
     return redirect('/connect')
@@ -19,8 +25,15 @@ def connect():
     return render_template('login.html', title='Sign In', form=form)
 
 def gen(camera):
+    global i
+    global timestamps
     while True:
         frame = camera.get_frame()
+        if i < 100:
+            timestamps[i] = datetime.timestamp(datetime.now())
+            i += 1
+        if i == 100:
+            print(np.mean(1/np.diff(timestamps)))
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
 
