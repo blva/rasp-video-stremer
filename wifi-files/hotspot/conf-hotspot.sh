@@ -13,6 +13,13 @@ DNS_FILE=/etc/dnsmasq.conf
 DNS_ORIGINAL=/etc/dnsmasq.conf.orig
 HOSTAPD_FILE=/etc/hostapd/hostapd.conf
 HOSTAPD_APPEND=./hostapd_append
+
+#Create backup
+sudo cp "$DHCPCD_FILE" ./bkup/dhcpcd.conf
+sudo cp "$DNS_FILE" ./bkup/dns.conf
+sudo cp "$HOSTAPD_FILE" ./bkup/hostapd.conf
+sudo cp "$DNS_FILE" ./bkup/dns.conf
+
 #Update DHPCD file
 sudo cat "$DHCPCD_APPEND"  > "$DHCPCD_FILE"
 #Restart DHPCD
@@ -23,7 +30,7 @@ sudo cat "$DNS_APPEND" > "$DNS_FILE"
 #Reload DNS
 sudo systemctl reload dnsmasq
 #Configure Access Point
-    sudo cat "$HOSTAPD_APPEND" > "$HOSTAPD_FILE"
+sudo cat "$HOSTAPD_APPEND" >> "$HOSTAPD_FILE"
 #Inform configuration path
 sudo sed -i '/DAEMON_CONF=/c\DAEMON_CONF="/etc/hostapd/hostapd.conf"' /etc/default/hostapd
 #Enable hostapd
@@ -41,7 +48,7 @@ sudo sh -c "iptables-save > /etc/iptables.ipv4.nat"
 sudo sed -i '/exit 0/i \
 iptables-restore < /etc/iptables.ipv4.nat' /etc/rc.local
 #Reboot
-sudo reboot
+#sudo reboot
 
 
 
