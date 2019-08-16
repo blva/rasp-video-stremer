@@ -8,3 +8,7 @@ class LoginForm(FlaskForm):
     ssid = StringField('SSID', validators=[DataRequired(message="Por favor, preencha o SSID")])
     password = PasswordField('Senha', validators=[DataRequired(message="Por favor, preencha a senha")])
     submit = SubmitField('Conecte-se')
+
+    #TODO write ssid and pswd to wifi 
+    #run shell script to disable all configuration
+    #reboot.
