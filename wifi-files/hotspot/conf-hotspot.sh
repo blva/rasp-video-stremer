@@ -30,7 +30,7 @@ sudo cat "$DNS_APPEND" > "$DNS_FILE"
 #Reload DNS
 sudo systemctl reload dnsmasq
 #Configure Access Point
-sudo cat "$HOSTAPD_APPEND" >> "$HOSTAPD_FILE"
+sudo cat "$HOSTAPD_APPEND" > "$HOSTAPD_FILE"
 #Inform configuration path
 sudo sed -i '/DAEMON_CONF=/c\DAEMON_CONF="/etc/hostapd/hostapd.conf"' /etc/default/hostapd
 #Enable hostapd
